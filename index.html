@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DALL-E Image Display</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #dalleImage {
+            max-width: 100%;
+            max-height: 100%;
+            transition: opacity 0.5s ease;
+        }
+        .hidden {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <img id="dalleImage" class="hidden" src="image.jpg" alt="DALL-E Image">
+    <script>
+        const imageElement = document.getElementById('dalleImage');
+        let lastImageUrl = '';
+
+        function refreshImage() {
+            const newImageUrl = "image.jpg?" + new Date().getTime();
+            if (newImageUrl !== lastImageUrl) {
+                imageElement.classList.add('hidden');
+                const newImage = new Image();
+                newImage.onload = function() {
+                    imageElement.src = this.src;
+                    imageElement.classList.remove('hidden');
+                    lastImageUrl = this.src;
+                };
+                newImage.src = newImageUrl;
+            }
+        }
+
+        setInterval(refreshImage, 5000); // Refresh image every 5000 milliseconds (5 seconds)
+    </script>
+</body>
+</html>
